@@ -3,6 +3,7 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
   $scope.loginData = {};
+  $scope.urlPrefix = "http://localhost:8888/tickets/index.php/data/";
 
   // Create the login modal that we will use later
   $ionicModal.fromTemplateUrl('templates/login.html', {
@@ -45,4 +46,65 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
-});
+})
+
+
+
+
+
+
+
+
+.controller('CitiesCtrl', function($scope, $stateParams, $http) {
+    $scope.cities = [];
+    $scope.error = "";
+    $http.get($scope.urlPrefix+"getCities.json")
+    .success(function(data){
+      if(data.result && data.result.length>0){
+        $scope.cities = data.result;
+      }
+      else{
+        $scope.error = "No cities found";
+      }
+    })
+    .error(function(){
+      console.log("Error");
+    })
+})
+.controller('MoviesCtrl', function($scope, $stateParams, $http) {
+    $scope.movies = [];
+    $scope.error = false;
+    $scope.cityId = $stateParams.cityId;
+    $http.get($scope.urlPrefix+"getMovies.json?cityid="+$stateParams.cityId)
+    .success(function(data){
+      console.log(data);
+      if(data.result && data.result.length>0){
+        $scope.movies = data.result;
+      }
+      else{
+        $scope.error = true;
+      }
+    })
+    .error(function(){
+      console.log("Error");
+    })
+})
+.controller('TheatresCtrl', function($scope, $stateParams, $http) {
+    $scope.theatres = [];
+    $scope.error = false;
+    $scope.cityId = $stateParams.cityId;
+    $scope.movieId = $stateParams.movieId;
+    $http.get($scope.urlPrefix+"getTheatres.json?movieid="+$stateParams.movieId+"&cityid="+$stateParams.cityId)
+    .success(function(data){
+      console.log(data);
+      if(data.result && data.result.length>0){
+        $scope.theatres = data.result;
+      }
+      else{
+        $scope.error = true;
+      }
+    })
+    .error(function(){
+      console.log("Error");
+    })
+})

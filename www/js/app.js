@@ -29,6 +29,41 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       templateUrl: "templates/menu.html",
       controller: 'AppCtrl'
     })
+    .state('app.cities', {
+      url: "/cities",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/cities.html",
+          controller: 'CitiesCtrl'
+        }
+      }
+    })
+    .state('app.movies', {
+      url: "/movies/:cityId",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/movies.html",
+          controller: 'MoviesCtrl'
+        }
+      }
+    })
+    .state('app.theatres', {
+      url: "/theatres/:cityId/:movieId",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/theatres.html",
+          controller: 'TheatresCtrl'
+        }
+      }
+    })
+
+
+
+
+
+
+
+
 
     .state('app.search', {
       url: "/search",
