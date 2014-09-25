@@ -34,27 +34,6 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
-
-.controller('PlaylistCtrl', function($scope, $stateParams) {
-})
-
-
-
-
-
-
-
-
 .controller('CitiesCtrl', function($scope, $stateParams, $http) {
     $scope.cities = [];
     $scope.error = "";
@@ -71,23 +50,38 @@ angular.module('starter.controllers', [])
       console.log("Error");
     })
 })
-.controller('MoviesCtrl', function($scope, $stateParams, $http) {
+.controller('MoviesCtrl', function($scope, $stateParams, $http, CityService) {
     $scope.movies = [];
     $scope.error = false;
-    $scope.cityId = $stateParams.cityId;
-    $http.get($scope.urlPrefix+"getMovies.json?cityid="+$stateParams.cityId)
-    .success(function(data){
-      console.log(data);
-      if(data.result && data.result.length>0){
-        $scope.movies = data.result;
-      }
-      else{
-        $scope.error = true;
-      }
-    })
-    .error(function(){
-      console.log("Error");
-    })
+    $scope.cityId = "";
+    $scope.getMovies = function(){
+      $http.get($scope.urlPrefix+"getMovies.json?cityid="+$scope.cityId)
+      .success(function(data){
+        console.log(data);
+        if(data.result && data.result.length>0){
+          $scope.movies = data.result;
+        }
+        else{
+          $scope.error = true;
+        }
+      })
+      .error(function(){
+        console.log("Error");
+      })
+    }
+    if($stateParams.cityId){
+      $http.get($scope.urlPrefix+"getCities.json?cityId="+$stateParams.cityId)
+      .success(function(data){
+        CityService.setCityObj(data.result[0]);
+        $scope.cityId = CityService.getCityObj().id;
+        $scope.getMovies();
+      })
+    }    
+    else{
+      console.log(CityService.getCityObj());
+      $scope.cityId = CityService.getCityObj().id;
+      $scope.getMovies();
+    }    
 })
 .controller('TheatresCtrl', function($scope, $stateParams, $http) {
     $scope.theatres = [];
@@ -107,4 +101,82 @@ angular.module('starter.controllers', [])
     .error(function(){
       console.log("Error");
     })
+})
+.controller('ShowtimesCtrl', function ($scope, $stateParams, $http, UtilitiesService) {
+    $scope.theatres = [];
+    $scope.error = false;
+    $scope.cityId = $stateParams.cityId;
+    $scope.movieId = $stateParams.movieId;
+    $scope.theatreId = $stateParams.theatreId;
+    $scope.formatTime = UtilitiesService.formatTime;
+    // console.log(UtilitiesService.formatTime("1100"));
+    $http.get($scope.urlPrefix+"getShows.json?movieid="+$stateParams.movieId+"&theatreid="+$stateParams.theatreId)
+    .success(function(data){
+      console.log(data);
+      if(data.result && data.result.length>0){
+        $scope.shows = data.result;
+      }
+      else{
+        $scope.error = true;
+      }
+    })
+    .error(function(){
+      console.log("Error");
+    })
+})
+.controller('PostTicketCtrl', function ($scope, $stateParams, $http, $location, UtilitiesService) {
+  $scope.error = false;
+
+  $scope.post = {};
+
+  $scope.movieName = "";
+  $scope.imageurl = "";
+  $scope.theatreName = "";
+  $scope.theatreLocation = "";
+  $scope.showTime = "";
+  $scope.showId = $stateParams.showId;
+  //getMovieDetails
+  $http.get($scope.urlPrefix+"getMovies.json?movieId="+$stateParams.movieId)
+  .success(function(data){
+    $scope.movieName = data.result[0].name;
+    $scope.imageurl = data.result[0].imageurl
+  })
+  .error(function(){
+    $scope.error = true;
+  })
+  //getTheatreDetails
+  $http.get($scope.urlPrefix+"getTheatres.json?theatreId="+$stateParams.theatreId)
+  .success(function(data){
+    $scope.theatreName = data.result[0].name;
+    $scope.theatreLocation = data.result[0].location
+  })
+  .error(function(){
+    $scope.error = true;
+  })
+  //getShowDetails
+  $scope.showTime = UtilitiesService.formatTime($stateParams.showTime);
+
+  $scope.postTickets = function(){
+      var data = {
+        "name": $scope.post.name,
+        "phone": $scope.post.phone,
+        "tickets": $scope.post.tickets,
+        "showId": $scope.showId,
+        "user":1,
+        "price":270
+      };
+      console.log(data);
+      $http({
+                    method: "post",
+                    url: $scope.urlPrefix+"/newTicket.json",
+                    data: data
+            }).
+            success(function(edata, status, headers){
+              alert("Ticket posted successfully");
+              $location.path("app/movies");
+            }).
+            error(function(){
+              console.log("Error");
+            })
+  }
 })

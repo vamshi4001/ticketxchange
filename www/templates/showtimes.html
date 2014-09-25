@@ -1,0 +1,34 @@
+<style>
+/*  .item-text-wrap{
+    font-size: 15px;
+    color: gray;
+  }
+  .pane {
+        background: url(img/nomovies.jpg) no-repeat center center fixed; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+    }*/
+</style>
+<!-- <ion-view title="Movies" ng-show="!error">
+  <ion-content class="has-header">
+    <div class="list">
+        <a ng-repeat="movie in movies" class="item item-thumbnail-left" href="#/app/theatres/{{cityId}}/{{movie.id}}">
+          <img src="{{movie.imageurl}}">
+          <h2>{{movie.name}}</h2>
+          <span class="item-text-wrap">There are 45 tickets available for this movie in your city. Go grab them</span>
+        </a>
+    </div>  
+  </ion-content>  
+</ion-view>
+<ion-view class="pane" ng-show="error">
+</ion-view>  -->
+<ion-view title="Show Times">
+  <ion-content class="has-header">
+    <ion-list>
+      <ion-item ng-repeat="show in shows" href="#/app/postticket/{{cityId}}/{{movieId}}/{{theatre.id}}/{{show.id}}/{{show.showtimes}}">
+        <h2>{{formatTime(show.showtimes)}}</h2>        
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
