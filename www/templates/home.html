@@ -1,0 +1,36 @@
+<style>
+  .item-text-wrap{
+    font-size: 15px;
+    color: gray;
+  }
+  .pane {
+        background: url(img/home.jpg) no-repeat center center fixed; 
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        background-size: cover;
+    }
+    .bar-header{
+      display: none;
+    }
+    .has-header{
+      top: 35%;
+    }
+    .login{
+      width: 90%;
+      margin: 0 auto;
+    }
+</style>
+<ion-view title="Movies" ng-show="!error">
+  <ion-content class="login" has-header="false">
+      <div class="list">
+        <div class="list-item">
+          <a href="#/app/umovies/{{cityid}}" class="button button-light button-block">Buy Tickets</a>      
+        </div>
+        <div class="list-item">
+          <a href="#/app/movies/{{cityid}}" class="button button-light button-block">Sell Tickets</a>
+        </div>
+      </div>
+  </ion-content>  
+</ion-view>
+<ion-view class="pane" ng-show="error">
+</ion-view> 

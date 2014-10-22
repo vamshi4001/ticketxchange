@@ -28,7 +28,15 @@ app.run(function($ionicPlatform) {
       templateUrl: "templates/menu.html",
       controller: 'AppCtrl'
     })
-    .state('app.cities', {
+    .state('app.home', {
+      url: "/home/:cityId",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/home.html",
+          controller: 'HomeCtrl'
+        }
+      }
+    }).state('app.cities', {
       url: "/cities",
       views: {
         'menuContent' :{
@@ -55,6 +63,51 @@ app.run(function($ionicPlatform) {
         }
       }
     })
+    .state('app.umovies', {
+      url: "/umovies/:cityId",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/umovies.html",
+          controller: 'UserMoviesCtrl'
+        }
+      }
+    })
+    .state('app.uending', {
+      url: "/uending/:cityId",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/uending.html",
+          controller: 'UserEndingCtrl'
+        }
+      }
+    })
+    .state('app.dates', {
+      url: "/dates/:cityId/:movieId",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/dates.html",
+          controller: 'DatesCtrl'
+        }
+      }
+    })
+    .state('app.utheatres', {
+      url: "/utheatres/:cityId/:movieId/:date",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/utheatres.html",
+          controller: 'UserTheatresCtrl'
+        }
+      }
+    })
+    .state('app.postedticket', {
+      url: "/postedtickets/:tmid",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/viewtickets.html",
+          controller: 'PostedTicketsCtrl'
+        }
+      }
+    })
     .state('app.theatres', {
       url: "/theatres/:cityId/:movieId",
       views: {
@@ -74,7 +127,7 @@ app.run(function($ionicPlatform) {
       }
     })
     .state('app.postticket', {
-      url: "/postticket/:cityId/:movieId/:theatreId/:showId/:showTime",
+      url: "/postticket/:tmid",
       views: {
         'menuContent' :{
           templateUrl: "templates/postticket.html",
@@ -135,6 +188,15 @@ app.service('UtilitiesService', function(){
   return{
     formatTime : function(time){
       return time.substring(0, 2) + ":" + time.substring(2);
+    },
+    formatDate : function(inpdate){
+      var dt = new Date(inpdate);
+      var day = dt.getDay();
+      var mon = dt.getMonth();
+      var date = dt.getDate();
+      var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+      var dayNames = ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Firday","Saturday"];      
+      return dayNames[day]+" "+date+" "+monthNames[mon];
     }
   }
 });

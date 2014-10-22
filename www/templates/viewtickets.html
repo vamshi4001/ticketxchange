@@ -48,36 +48,23 @@
   .showtime{
     color: white;
   }
-  .col-25{
-    text-align: center;
-    border-right:1px solid white;
-    margin-right: 0px;
-    cursor: pointer;
-  }
 </style>
 <ion-view title="Select Date">
   <ion-content class="has-header">
     <ion-list>      
-      <a class="item" ng-repeat="show in shows">
+      <a class="item" ng-repeat="ticket in list">
         <div class="row">
           <div class="col col-80 name-div">
-            <span class="item-text-wrap">{{formatDate(show.date)}}</span><br>
-            <!-- <span class="show-times" ng-repeat="show in theatre.shows">{{formatTime(show.showtime)}}&nbsp</span> -->
+            <span class="item-text-wrap">{{ticket.name}}</span><br>
+            <span class="show-times">Ph: {{ticket.phone}}</span><br>
+            <span class="show-times">Cost: Rs. {{ticket.price}}</span>
           </div>
           <div class="col col-20 count-div">
-            <div class="small">Total</div>
-            <div class="count">{{show.totalshows}}</div>
-            <div class="small">shows</div>
+            <div class="count">{{ticket.quantity}}</div>
+            <div class="small">Tickets</div>
+            <div class="small">available</div>
           </div>                        
-        </div>
-        <div class="show-expand">
-          <div class="list row">
-            <div class="list-item col col-25" ng-repeat="show in show.shows" ng-click="addTickets(show.tmid)">
-              <h2 class="showtime">{{formatTime(show.showtime)}}</h2>
-              <!-- <span class="small">{{show.tickets}} tickets</span> -->
-            </div>            
-          </div>
-        </div>        
+        </div>           
       </a>      
     </ion-list>
   </ion-content>

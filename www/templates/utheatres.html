@@ -58,23 +58,23 @@
 <ion-view title="Select Date">
   <ion-content class="has-header">
     <ion-list>      
-      <a class="item" ng-repeat="show in shows">
+      <a class="item" ng-repeat="theatre in theatres">
         <div class="row">
           <div class="col col-80 name-div">
-            <span class="item-text-wrap">{{formatDate(show.date)}}</span><br>
+            <span class="item-text-wrap">{{theatre.theatre_name}}, {{theatre.theatre_location}}</span><br>
             <!-- <span class="show-times" ng-repeat="show in theatre.shows">{{formatTime(show.showtime)}}&nbsp</span> -->
           </div>
           <div class="col col-20 count-div">
             <div class="small">Total</div>
-            <div class="count">{{show.totalshows}}</div>
-            <div class="small">shows</div>
+            <div class="count">{{theatre.totalTickets}}</div>
+            <div class="small">tickets</div>
           </div>                        
         </div>
         <div class="show-expand">
           <div class="list row">
-            <div class="list-item col col-25" ng-repeat="show in show.shows" ng-click="addTickets(show.tmid)">
+            <div class="list-item col col-25" ng-repeat="show in theatre.shows" ng-click="getTickets(show.tmid)">
               <h2 class="showtime">{{formatTime(show.showtime)}}</h2>
-              <!-- <span class="small">{{show.tickets}} tickets</span> -->
+              <span class="small">{{show.tickets}} tickets</span>
             </div>            
           </div>
         </div>        

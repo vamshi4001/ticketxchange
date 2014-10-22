@@ -22,7 +22,18 @@
             <span class="input-label">Phone Number</span>
             <input type="number" placeholder="8050686925" ng-model="post.phone">
           </label>
-        </div>
+          <label class="item item-input item-stacked-label">
+            <span class="input-label">Date</span>
+            <input type="date" placeholder="select date" ng-model="post.date">
+          </label>
+          <ul class="list">
+            <li class="item item-checkbox">
+               <label class="checkbox">
+                 <input type="checkbox">
+               </label>
+               Needs Online Payment 
+            </li>
+          </ul>
         <button class="button button-block button-positive" ng-click="postTickets()">Post Tickets</button>
       </div>
 
