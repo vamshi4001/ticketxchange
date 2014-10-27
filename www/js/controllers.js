@@ -65,7 +65,7 @@ angular.module('starter.controllers', [])
     $scope.getMovies = function(){
       $http.get($scope.urlPrefix+"getMovies.json?cityid="+$scope.cityId)
       .success(function(data){
-        console.log(data);
+        // console.log(data);
         if(data.result && data.result.length>0){
           $scope.movies = data.result;
         }
@@ -86,7 +86,7 @@ angular.module('starter.controllers', [])
       })
     }    
     else{
-      console.log(CityService.getCityObj());
+      //console.log(CityService.getCityObj());
       $scope.cityId = CityService.getCityObj().id;
       $scope.getMovies();
     }
@@ -98,7 +98,7 @@ angular.module('starter.controllers', [])
     $scope.getMovies = function(){
       $http.get($scope.urlPrefix+"getMovies.json?cityid="+$scope.cityId)
       .success(function(data){
-        console.log(data);
+        // console.log(data);
         if(data.result && data.result.length>0){
           $scope.movies = data.result;
         }
@@ -119,7 +119,7 @@ angular.module('starter.controllers', [])
       })
     }    
     else{
-      console.log(CityService.getCityObj());
+      // console.log(CityService.getCityObj());
       $scope.cityId = CityService.getCityObj().id;
       $scope.getMovies();
     }    
@@ -131,7 +131,7 @@ angular.module('starter.controllers', [])
     $scope.movieId = $stateParams.movieId;
     $http.get($scope.urlPrefix+"getTheatres.json?movieid="+$stateParams.movieId+"&cityid="+$stateParams.cityId)
     .success(function(data){
-      console.log(data);
+      // console.log(data);
       if(data.result && data.result.length>0){
         $scope.theatres = data.result;
       }
@@ -150,7 +150,7 @@ angular.module('starter.controllers', [])
   $scope.tmid = $stateParams.tmid;
   $http.get($scope.urlPrefix+"getPostedTickets.json?tmid="+$scope.tmid)
     .success(function(data){
-      console.log(data);
+      // console.log(data);
       if(data.result && data.result.length>0){
         $scope.list = data.result;
       }
@@ -171,7 +171,7 @@ angular.module('starter.controllers', [])
     $scope.getTickets = function(tmid){
       $location.path("/app/postedtickets/"+tmid);
     }
-    $http.get($scope.urlPrefix+"getTickets.json?cityid="+$scope.cityId+"&movieid="+$scope.movieId)
+    $http.get($scope.urlPrefix+"getTickets.json?cityid="+$scope.cityId+"&movieid="+$scope.movieId+"&date="+$stateParams.date)
     .success(function(data){
       var groups = [];
       for (var i = 0; i < data.result.length; i++) {
@@ -207,7 +207,7 @@ angular.module('starter.controllers', [])
       data.result = new Array();
       for ( var key in arr )
           data.result.push(arr[key]);
-      console.log(data);
+      // console.log(data);
       if(data.result && data.result.length>0){
         $scope.theatres = data.result;
       }
@@ -227,7 +227,7 @@ angular.module('starter.controllers', [])
     $scope.formatDate = UtilitiesService.formatDate;
     $http.get($scope.urlPrefix+"getDates.json?movieid="+$stateParams.movieId+"&cityid="+$stateParams.cityId)
     .success(function(data){
-      console.log(data);
+      // console.log(data);
       if(data.result && data.result.length>0){
         $scope.dates = data.result;
       }
@@ -248,22 +248,22 @@ angular.module('starter.controllers', [])
     $scope.formatTime = UtilitiesService.formatTime;
     $scope.formatDate = UtilitiesService.formatDate;
     // console.log(UtilitiesService.formatTime("1100"));
-    $scope.addTickets = function(tmid){
-      $location.path("#/app/postticket/"+tmid);
+    $scope.addTickets = function(tmid, showtime){      
+      $location.path("/app/postticket/"+$scope.cityId+"/"+tmid);
     }
     $http.get($scope.urlPrefix+"getShows.json?movieid="+$stateParams.movieId+"&theatreid="+$stateParams.theatreId)
     .success(function(data){
       var groups = [];
       for (var i = 0; i < data.result.length; i++) {
-        var theatreid = data.result[i]['theatreid'];
-        if(groups[theatreid]){
-          groups[theatreid].push({            
+        var date = data.result[i]['date'];
+        if(groups[date]){
+          groups[date].push({            
             "tmid": data.result[i].id,
             "showtime":data.result[i].showtimes
           })
         }
         else{
-          groups[theatreid] = [{
+          groups[date] = [{
             "tmid": data.result[i].id,
             "showtime":data.result[i].showtimes
           }];          
@@ -271,14 +271,14 @@ angular.module('starter.controllers', [])
       };
       
       for (var i = 0; i < data.result.length; i++) {
-        data.result[i]["shows"] = groups[data.result[i].theatreid];        
-        data.result[i]["totalshows"] = groups[data.result[i].theatreid].length;        
+        data.result[i]["shows"] = groups[data.result[i].date];        
+        data.result[i]["totalshows"] = groups[data.result[i].date].length;        
       }
       
       var arr = {};
 
       for ( var i=0; i < data.result.length; i++ )
-          arr[data.result[i]['theatreid']] = data.result[i];
+          arr[data.result[i]['date']] = data.result[i];
       data.result = new Array();
       for ( var key in arr )
           data.result.push(arr[key]);
@@ -298,7 +298,7 @@ angular.module('starter.controllers', [])
 })
 .controller('PostTicketCtrl', function ($scope, $stateParams, $http, $location, UtilitiesService) {
   $scope.error = false;
-
+  // console.log($stateParams);
   $scope.post = {};
 
   $scope.movieName = "";
@@ -306,37 +306,65 @@ angular.module('starter.controllers', [])
   $scope.theatreName = "";
   $scope.theatreLocation = "";
   $scope.showTime = "";
-  $scope.showId = $stateParams.showId;
-  //getMovieDetails
-  $http.get($scope.urlPrefix+"getMovies.json?movieId="+$stateParams.movieId)
+  $scope.showId = $stateParams.tmid;
+  $scope.cityId = $stateParams.cityId;
+  $scope.post.needOnlinePayment = false;
+  $scope.formatDate = UtilitiesService.formatDate;
+  //get User details
+  var userObj = {
+                  id: "2",
+                  emailid: "avinash.palleti@gmail.com",
+                  fullname: "Avinash Reddy",
+                  contactnumber: "9242610583",
+                  cityid: null
+                };
+  $scope.post.name = userObj.fullname;
+  $scope.post.phone = userObj.contactnumber;
+  //get movieid theatreid showid and date
+  $http.get($scope.urlPrefix+"getInfoTMID.json?tmid="+$scope.showId)
   .success(function(data){
-    $scope.movieName = data.result[0].name;
-    $scope.imageurl = data.result[0].imageurl
-  })
-  .error(function(){
-    $scope.error = true;
-  })
-  //getTheatreDetails
-  $http.get($scope.urlPrefix+"getTheatres.json?theatreId="+$stateParams.theatreId)
-  .success(function(data){
-    $scope.theatreName = data.result[0].name;
-    $scope.theatreLocation = data.result[0].location
-  })
-  .error(function(){
-    $scope.error = true;
-  })
-  //getShowDetails
-  $scope.showTime = UtilitiesService.formatTime($stateParams.showTime);
+    var movieId = data.result[0].movieid;
+    var theatreId = data.result[0].theatreid;
+    $scope.date = data.result[0].date;
+    var showTime = data.result[0].showtimes;
+      
 
+      //getMovieDetails
+      $http.get($scope.urlPrefix+"getMovies.json?movieId="+movieId)
+      .success(function(data){
+        $scope.movieName = data.result[0].name;
+        $scope.imageurl = data.result[0].imageurl
+      })
+      .error(function(){
+        $scope.error = true;
+      })
+      
+
+      //getTheatreDetails
+      $http.get($scope.urlPrefix+"getTheatres.json?theatreId="+theatreId)
+      .success(function(data){
+        $scope.theatreName = data.result[0].name;
+        $scope.theatreLocation = data.result[0].location
+      })
+      .error(function(){
+        $scope.error = true;
+      })
+      
+      //getShowDetails
+      $scope.showTime = UtilitiesService.formatTime(showTime);    
+  })
+  
   $scope.postTickets = function(){
       var data = {
         "name": $scope.post.name,
         "phone": $scope.post.phone,
         "quantity": $scope.post.tickets,
         "showId": $scope.showId,
-        "user":1,
-        "price":270,
-        "date": "2014-12-24"
+        "needOnlinePayment": $scope.post.needOnlinePayment,
+        "user":userObj.id,
+        "price":$scope.post.cost,
+        "date": $scope.date,
+        "cityid": $scope.cityId
       };
       console.log(data);
       $http({
@@ -346,7 +374,7 @@ angular.module('starter.controllers', [])
             }).
             success(function(edata, status, headers){
               alert("Ticket posted successfully");
-              $location.path("app/movies");
+              $location.path("app/home/"+$scope.cityId);
             }).
             error(function(){
               console.log("Error");

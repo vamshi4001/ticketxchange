@@ -127,59 +127,16 @@ app.run(function($ionicPlatform) {
       }
     })
     .state('app.postticket', {
-      url: "/postticket/:tmid",
+      url: "/postticket/:cityId/:tmid",
       views: {
         'menuContent' :{
           templateUrl: "templates/postticket.html",
           controller: 'PostTicketCtrl'
         }
       }
-    })
-
-
-
-
-
-
-
-
-
-    .state('app.search', {
-      url: "/search",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/search.html"
-        }
-      }
-    })
-
-    .state('app.browse', {
-      url: "/browse",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/browse.html"
-        }
-      }
-    })
-    .state('app.playlists', {
-      url: "/playlists",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/playlists.html",
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-
-    .state('app.single', {
-      url: "/playlists/:playlistId",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/playlist.html",
-          controller: 'PlaylistCtrl'
-        }
-      }
     });
+
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/cities');
 });
@@ -211,7 +168,7 @@ app.service("UserService", function(){
       return userObj;
     },
     removeUserObj : function(){
-      userObj = {};
+      userObj = null;
     }
   }
 });

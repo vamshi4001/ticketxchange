@@ -5,14 +5,14 @@
         <img src="{{imageurl}}">
         <h2>{{movieName}}</h2>
         <p>{{theatreName}}, {{theatreLocation}}</p>
-        <p>{{showTime}}</p>
+        <p>{{showTime}} on {{formatDate(date)}}</p>
       </div>
 
       <div class="item item-body">
         <div class="list">
           <label class="item item-input item-stacked-label">
             <span class="input-label">Number of Tickets</span>
-            <input type="number" placeholder="10" ng-model="post.tickets">
+            <input type="number" placeholder="Eg: 10" ng-model="post.tickets">
           </label>
           <label class="item item-input item-stacked-label">
             <span class="input-label">Your Name</span>
@@ -20,16 +20,16 @@
           </label>
           <label class="item item-input item-stacked-label">
             <span class="input-label">Phone Number</span>
-            <input type="number" placeholder="8050686925" ng-model="post.phone">
+            <input type="text" placeholder="8050686925" ng-model="post.phone">
           </label>
           <label class="item item-input item-stacked-label">
-            <span class="input-label">Date</span>
-            <input type="date" placeholder="select date" ng-model="post.date">
+            <span class="input-label">Ticket Price (Each Ticket in INR)</span>
+            <input type="number" placeholder="Eg: 150" ng-model="post.cost">
           </label>
           <ul class="list">
             <li class="item item-checkbox">
                <label class="checkbox">
-                 <input type="checkbox">
+                 <input type="checkbox" ng-model="post.needOnlinePayment">
                </label>
                Needs Online Payment 
             </li>

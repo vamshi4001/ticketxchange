@@ -72,7 +72,7 @@
         </div>
         <div class="show-expand">
           <div class="list row">
-            <div class="list-item col col-25" ng-repeat="show in show.shows" ng-click="addTickets(show.tmid)">
+            <div class="list-item col col-25" ng-repeat="show in show.shows" ng-click="addTickets(show.tmid,show.showtime)">
               <h2 class="showtime">{{formatTime(show.showtime)}}</h2>
               <!-- <span class="small">{{show.tickets}} tickets</span> -->
             </div>            
