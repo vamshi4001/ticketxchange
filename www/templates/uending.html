@@ -4,17 +4,21 @@
     color: gray;
   }
   .pane {
-        background: url(img/ocean.jpg) no-repeat center center fixed; 
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        background-size: cover;
+        background-color: #4285F4;
     }
-    .button.button-calm{
+    /*.button.button-calm{
       border-color: crimson;
       background-color: crimson;
+    }*/
+    .button-bar a.button, .button-bar > .button:last-child, .button-bar > .button:first-child{
+      border: 0px;
+      border-radius: 0px;
     }
 </style>
 <ion-view title="Movies" ng-show="!error">
+  <ion-nav-buttons side="right">
+    <i class="icon ion-ios7-home" ng-click="goHome()"></i>
+  </ion-nav-buttons>
   <ion-content class="has-header">
     <div class="button-bar button-block">
       <a href="#/app/uending/{{cityId}}" class="button button-calm">Ending Soon</a>

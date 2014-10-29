@@ -1,1 +1,10 @@
 /* Empty. Add your own CSS if you like */
+.item-thumbnail-left > img:first-child, .item-thumbnail-left .item-image, .item-thumbnail-left .item-content > img:first-child, .item-thumbnail-left .item-content .item-image{
+	border-radius: 50px;
+}
+.icon{
+    font-size: 30px;
+}
+.bar .title + .button:last-child, .bar > .button + .button:last-child, .bar > .button.pull-right, .bar .buttons.pull-right, .bar .title + .buttons{
+	right: 10px;
+}

@@ -3,11 +3,8 @@
     font-size: 15px;
     color: gray;
   }
-  .pane {
-        background: url(img/home.jpg) no-repeat center center fixed; 
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        background-size: cover;
+    .pane {
+        background-color: #4285F4;
     }
     .bar-header{
       display: none;
@@ -19,6 +16,12 @@
       width: 90%;
       margin: 0 auto;
     }
+    .city-center{
+      display: block;
+      text-align: center;
+      font-weight: bold;
+      color: #fff;      
+    }
 </style>
 <ion-view title="Movies" ng-show="!error">
   <ion-content class="login" has-header="false">
@@ -29,7 +32,8 @@
         <div class="list-item">
           <a href="#/app/movies/{{cityid}}" class="button button-light button-block">Sell Tickets</a>
         </div>
-      </div>
+        <a href="#/app/cities/change" class="city-center"><span ng-show="selectedCity!=''">{{selectedCity}} - </span>Change City</a>
+      </div>      
   </ion-content>  
 </ion-view>
 <ion-view class="pane" ng-show="error">

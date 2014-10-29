@@ -1,35 +1,17 @@
 <style>
-/*  .item-text-wrap{
-    font-size: 15px;
-    color: gray;
-  }
-  .pane {
-        background: url(img/nomovies.jpg) no-repeat center center fixed; 
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        background-size: cover;
-    }*/
+  
 </style>
-<!-- <ion-view title="Movies" ng-show="!error">
-  <ion-content class="has-header">
-    <div class="list">
-        <a ng-repeat="movie in movies" class="item item-thumbnail-left" href="#/app/theatres/{{cityId}}/{{movie.id}}">
-          <img src="{{movie.imageurl}}">
-          <h2>{{movie.name}}</h2>
-          <span class="item-text-wrap">There are 45 tickets available for this movie in your city. Go grab them</span>
-        </a>
-    </div>  
-  </ion-content>  
-</ion-view>
-<ion-view class="pane" ng-show="error">
-</ion-view>  -->
 <ion-view title="Theatres">
+  <ion-nav-buttons side="right">
+    <i class="icon ion-ios7-home" ng-click="goHome()"></i>
+  </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-list>
-      <ion-item ng-repeat="theatre in theatres" href="#/app/showtimes/{{cityId}}/{{movieId}}/{{theatre.id}}">
+      <a class="item" ng-repeat="theatre in theatres" href="#/app/showtimes/{{cityId}}/{{movieId}}/{{theatre.id}}">
+        <!-- <i class="icon ion-ios7-videocam-outline"></i> -->
         <h2>{{theatre.name}}</h2>
         <p>{{theatre.location}}</p>
-      </ion-item>
+      </a>
     </ion-list>
   </ion-content>
 </ion-view>

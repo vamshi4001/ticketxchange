@@ -8,7 +8,7 @@
     width: 100%;
     border-radius: 4px;
     font-size: 35px;
-    color: orange;
+    color: white;
   }
   .item-avatar{
     padding-left: 10px;
@@ -25,19 +25,24 @@
   .show-expand{
     margin: 5px;
     margin-top: -4px;
-    background-color:crimson;
+    background-color: #4285F4;
     color: white;   
   }
   .name-div{
-    background-color: crimson;
+    background-color: #4285F4;
   }
   .count-div{
-    background-color: darkred;
+    background-color: #31B8F6;
     text-align: center;
   }
   .item{
     padding: 0px;
   }
+  .item{
+    background-color: #E1E1E0;
+    border-color: #D0CBCB;
+  }
+
   .item.row{
     min-height: 75px;
   }
@@ -54,8 +59,12 @@
     margin-right: 0px;
     cursor: pointer;
   }
+  
 </style>
 <ion-view title="Select Date">
+  <ion-nav-buttons side="right">
+    <i class="icon ion-ios7-home" ng-click="goHome()"></i>
+  </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-list>      
       <a class="item" ng-repeat="show in shows">

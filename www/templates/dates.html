@@ -1,9 +1,12 @@
 <style>
   .dates{
-    border-left: 5px solid rgb(190, 70, 84);
+    border-left: 5px solid #4285F4;
   }
 </style>
 <ion-view title="Select Date">
+  <ion-nav-buttons side="right">
+    <i class="icon ion-ios7-home" ng-click="goHome()"></i>
+  </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-list>
       <ion-item class="dates" ng-repeat="date in dates" href="#/app/utheatres/{{cityId}}/{{movieId}}/{{date.date}}">

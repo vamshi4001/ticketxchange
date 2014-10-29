@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
   // Form data for the login modal
   $scope.loginData = {};
   $scope.urlPrefix = "http://localhost:8888/ticketsws/index.php/data/";
@@ -34,13 +34,11 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('CitiesCtrl', function($scope, $location, $stateParams, $http, CityService) {
+.controller('CitiesCtrl', function ($scope, $location, $state, $stateParams, $http, CityService) {
     $scope.cities = [];
-    $scope.error = "";
-    if(CityService.getCityObj().id){
-      $location.path("/app/home/"+CityService.getCityObj().id);
-    }
-    else{
+    $scope.error = ""; 
+
+    $scope.getCities = function(){
       $http.get($scope.urlPrefix+"getCities.json")
       .success(function(data){
         if(data.result && data.result.length>0){
@@ -53,15 +51,41 @@ angular.module('starter.controllers', [])
       .error(function(){
         console.log("Error");
       })
-    }    
-})
-.controller('UserEndingCtrl', function($scope, $stateParams, $http, CityService) {
+    }
+
+    $scope.selectCity = function(id){
+      $http.get($scope.urlPrefix+"getCities.json?cityId="+id)
+      .success(function(data){
+        CityService.setCityObj(data.result[0]);
+        $location.path("/app/home/"+CityService.getCityObj().id);
+      })
+    }
+    if($stateParams.command=="change"){
+      $scope.getCities();
+    }
+    else{
+      if(CityService.getCityObj().id){
+        $location.path("/app/home/"+CityService.getCityObj().id);      
+      }
+      else{
+        $scope.getCities(); 
+      }
+    }
 
 })
-.controller('UserMoviesCtrl', function($scope, $stateParams, $http, CityService) {
+.controller('UserEndingCtrl', function ($scope, $stateParams, $location, $state, $http, CityService) {
+  $scope.goHome = function(){
+      $location.path("/app/home/"+CityService.getCityObj().id);;
+    }
+    
+})
+.controller('UserMoviesCtrl', function ($scope, $stateParams, $location, $state, $http, CityService) {
     $scope.movies = [];
     $scope.error = false;
     $scope.cityId = "";
+    $scope.goHome = function(){
+      $location.path("/app/home/"+CityService.getCityObj().id);;
+    }
     $scope.getMovies = function(){
       $http.get($scope.urlPrefix+"getMovies.json?cityid="+$scope.cityId)
       .success(function(data){
@@ -91,10 +115,13 @@ angular.module('starter.controllers', [])
       $scope.getMovies();
     }
 })
-.controller('MoviesCtrl', function($scope, $stateParams, $http, CityService) {
+.controller('MoviesCtrl', function ($scope, $stateParams, $http, CityService, $location) {
     $scope.movies = [];
     $scope.error = false;
     $scope.cityId = "";
+    $scope.goHome = function(){
+      $location.path("/app/home/"+CityService.getCityObj().id);;
+    }
     $scope.getMovies = function(){
       $http.get($scope.urlPrefix+"getMovies.json?cityid="+$scope.cityId)
       .success(function(data){
@@ -124,7 +151,7 @@ angular.module('starter.controllers', [])
       $scope.getMovies();
     }    
 })
-.controller('TheatresCtrl', function($scope, $stateParams, $http) {
+.controller('TheatresCtrl', function ($scope, $stateParams, $http, $location, CityService) {
     $scope.theatres = [];
     $scope.error = false;
     $scope.cityId = $stateParams.cityId;
@@ -142,13 +169,30 @@ angular.module('starter.controllers', [])
     .error(function(){
       console.log("Error");
     })
+
+    $scope.goHome = function(){
+      $location.path("/app/home/"+CityService.getCityObj().id);;
+    }
+    
 })
-.controller('HomeCtrl', function($scope, $stateParams, $http, UtilitiesService) {
-  $scope.cityid = $stateParams.cityId;
+.controller('HomeCtrl', function ($scope, $stateParams, $location, $state, $http, UtilitiesService, CityService) {
+  if($stateParams.cityId){
+    $scope.cityid = $stateParams.cityId;
+    $scope.selectedCity = "";
+    console.log(CityService.getCityObj());
+    $scope.selectedCity = CityService.getCityObj().city;    
+  }
+  else{
+    $location.path("/app/cities");
+  }
+    
 })
-.controller('PostedTicketsCtrl', function($scope, $stateParams, $http, UtilitiesService) {
+.controller('PostedTicketsCtrl', function ($scope, $stateParams, $location, $state, $http, UtilitiesService, CityService) {
   $scope.tmid = $stateParams.tmid;
-  $http.get($scope.urlPrefix+"getPostedTickets.json?tmid="+$scope.tmid)
+  $scope.goHome = function(){
+      $location.path("/app/home/"+CityService.getCityObj().id);;
+    }
+    $http.get($scope.urlPrefix+"getPostedTickets.json?tmid="+$scope.tmid)
     .success(function(data){
       // console.log(data);
       if(data.result && data.result.length>0){
@@ -162,7 +206,7 @@ angular.module('starter.controllers', [])
       console.log("Error");
     })
 })
-.controller('UserTheatresCtrl', function($scope, $location,   $stateParams, $http, UtilitiesService) {
+.controller('UserTheatresCtrl', function ($scope, $location, $state, $stateParams, $http, UtilitiesService, CityService) {
     $scope.theatres = [];
     $scope.error = false;
     $scope.cityId = $stateParams.cityId;
@@ -170,6 +214,9 @@ angular.module('starter.controllers', [])
     $scope.formatTime = UtilitiesService.formatTime;
     $scope.getTickets = function(tmid){
       $location.path("/app/postedtickets/"+tmid);
+    }
+    $scope.goHome = function(){
+      $location.path("/app/home/"+CityService.getCityObj().id);;
     }
     $http.get($scope.urlPrefix+"getTickets.json?cityid="+$scope.cityId+"&movieid="+$scope.movieId+"&date="+$stateParams.date)
     .success(function(data){
@@ -219,12 +266,15 @@ angular.module('starter.controllers', [])
       console.log("Error");
     })
 })
-.controller('DatesCtrl', function($scope, $stateParams, $http, UtilitiesService) {
+.controller('DatesCtrl', function ($scope, $stateParams, $http, $location, $state, UtilitiesService, CityService) {
     $scope.theatres = [];
     $scope.error = false;
     $scope.cityId = $stateParams.cityId;
     $scope.movieId = $stateParams.movieId;
     $scope.formatDate = UtilitiesService.formatDate;
+    $scope.goHome = function(){
+      $location.path("/app/home/"+CityService.getCityObj().id);;
+    }
     $http.get($scope.urlPrefix+"getDates.json?movieid="+$stateParams.movieId+"&cityid="+$stateParams.cityId)
     .success(function(data){
       // console.log(data);
@@ -239,7 +289,7 @@ angular.module('starter.controllers', [])
       console.log("Error");
     })
 })
-.controller('ShowtimesCtrl', function ($scope, $stateParams, $location, $http, UtilitiesService) {
+.controller('ShowtimesCtrl', function ($scope, $stateParams, $location, $state, $http, UtilitiesService, CityService) {
     $scope.theatres = [];
     $scope.error = false;
     $scope.cityId = $stateParams.cityId;
@@ -248,6 +298,9 @@ angular.module('starter.controllers', [])
     $scope.formatTime = UtilitiesService.formatTime;
     $scope.formatDate = UtilitiesService.formatDate;
     // console.log(UtilitiesService.formatTime("1100"));
+    $scope.goHome = function(){
+      $location.path("/app/home/"+CityService.getCityObj().id);;
+    }
     $scope.addTickets = function(tmid, showtime){      
       $location.path("/app/postticket/"+$scope.cityId+"/"+tmid);
     }
@@ -296,7 +349,7 @@ angular.module('starter.controllers', [])
       console.log("Error");
     })
 })
-.controller('PostTicketCtrl', function ($scope, $stateParams, $http, $location, UtilitiesService) {
+.controller('PostTicketCtrl', function ($scope, $stateParams, $http, $location, $state, UtilitiesService, CityService) {
   $scope.error = false;
   // console.log($stateParams);
   $scope.post = {};
@@ -353,7 +406,10 @@ angular.module('starter.controllers', [])
       //getShowDetails
       $scope.showTime = UtilitiesService.formatTime(showTime);    
   })
-  
+  $scope.goHome = function(){
+      $location.path("/app/home/"+CityService.getCityObj().id);;
+    }
+    
   $scope.postTickets = function(){
       var data = {
         "name": $scope.post.name,

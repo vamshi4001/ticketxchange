@@ -36,8 +36,18 @@ app.run(function($ionicPlatform) {
           controller: 'HomeCtrl'
         }
       }
-    }).state('app.cities', {
+    })
+    .state('app.cities', {
       url: "/cities",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/cities.html",
+          controller: 'CitiesCtrl'
+        }
+      }
+    })
+    .state('app.cityChange', {
+      url: "/cities/:command",
       views: {
         'menuContent' :{
           templateUrl: "templates/cities.html",
