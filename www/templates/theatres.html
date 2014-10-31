@@ -1,5 +1,13 @@
 <style>
-  
+  .moviename{
+    background-color: #4285F4;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+  }
+  .moviename .icon{
+    margin-right: 10px;    
+  }
 </style>
 <ion-view title="Theatres">
   <ion-nav-buttons side="right">
@@ -7,6 +15,10 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-list>
+      <div class="item moviename">
+        <i class="icon ion-film-marker"></i> 
+        Movie: {{movie.name}}
+      </div>      
       <a class="item" ng-repeat="theatre in theatres" href="#/app/showtimes/{{cityId}}/{{movieId}}/{{theatre.id}}">
         <!-- <i class="icon ion-ios7-videocam-outline"></i> -->
         <h2>{{theatre.name}}</h2>

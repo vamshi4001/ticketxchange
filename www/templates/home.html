@@ -9,9 +9,6 @@
     .bar-header{
       display: none;
     }
-    .has-header{
-      top: 35%;
-    }
     .login{
       width: 90%;
       margin: 0 auto;
@@ -22,19 +19,46 @@
       font-weight: bold;
       color: #fff;      
     }
+  .logo i{
+    font-size: 100px;
+    color: #FFF;
+    text-align: center;
+    display: block;
+    margin-top: 15px;
+  }  
+  .city-center i{
+    vertical-align: middle;
+    margin-right: 10px;
+  }
 </style>
 <ion-view title="Movies" ng-show="!error">
   <ion-content class="login" has-header="false">
+      <div class="list">
+        <div class="logo">
+          <i class="icon ion-person"></i>
+          <p class="city-center">Welcome {{loggedinUser}}</p>
+        </div>
+      </div>
+      
       <div class="list">
         <div class="list-item">
           <a href="#/app/umovies/{{cityid}}" class="button button-light button-block">Buy Tickets</a>      
         </div>
         <div class="list-item">
-          <a href="#/app/movies/{{cityid}}" class="button button-light button-block">Sell Tickets</a>
+          <a href="#/app/login" class="button button-light button-block">Sell Tickets</a>
         </div>
-        <a href="#/app/cities/change" class="city-center"><span ng-show="selectedCity!=''">{{selectedCity}} - </span>Change City</a>
+        <a href="#/app/cities/change" class="city-center"><i class="icon ion-earth"></i><span ng-show="selectedCity.length>0">{{selectedCity}} - </span>Change City</a>        
       </div>      
-  </ion-content>  
+  </ion-content> 
+  <ion-footer-bar align-title="left" class="bar-positive" ng-show="isLogedin">
+    <div class="buttons">
+      <button class="button button-calm"><i class="icon ion-log-out"></i>Log Me out</button>
+    </div>
+    <h1 class="title"></h1>
+    <div class="buttons" ng-click="doSomething()">
+      <a href="#/app/mytickets" class="button button-calm"><i class="icon ion-ios7-pricetags"></i>Tickets Posted</a>
+    </div>
+  </ion-footer-bar> 
 </ion-view>
 <ion-view class="pane" ng-show="error">
 </ion-view> 

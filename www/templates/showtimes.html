@@ -35,7 +35,7 @@
     background-color: #31B8F6;
     text-align: center;
   }
-  .item{
+  .item-show{
     padding: 0px;
   }
   .item{
@@ -59,7 +59,13 @@
     margin-right: 0px;
     cursor: pointer;
   }
-  
+  .avtar{
+    padding-left: 72px;
+    padding-right: 70px;    
+  }
+  .theatre{
+    white-space: initial !important;
+  }
 </style>
 <ion-view title="Select Date">
   <ion-nav-buttons side="right">
@@ -67,7 +73,12 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-list>      
-      <a class="item" ng-repeat="show in shows">
+      <div class="item item-avatar avtar" href="#">
+        <img src="{{movie.imageurl}}">
+        <h2>{{movie.name}}</h2>
+        <p class="theatre">{{theatre.name}}, {{theatre.location}}</p>
+      </div>      
+      <a class="item item-show" ng-repeat="show in shows">
         <div class="row">
           <div class="col col-80 name-div">
             <span class="item-text-wrap">{{formatDate(show.date)}}</span><br>

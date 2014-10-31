@@ -1,18 +1,22 @@
 points
 
 services 
-- to save user object
-- to save city - and update user preference city in his db
+// - to save user object
+/* - to save city - and */update user preference city in his db
 - user active/inactive - user rating by previous users
 - Define - end trip style - as soon as the ticket is purchased, they should be able to end the post or they will receive unnecessary calls.
 
 - No data pages
-- Select city only once check
-- Home button on every page and removing backbuttons when not required
-- Cancel anywhere and state should return and should start afresh
+// - Select city only once check
+// - Home button on every page and removing backbuttons when not required
+// - Cancel anywhere and state should return and should start afresh
 - Side menu - Movies list, Theatres list, Edit profile, Logout, 
-- Login page - user profile page - change phone number or name or photo
-- 
+// - Login page - user profile page - change phone number or name or photo
+
+==> User should be able to skip login to proceed as a guest
+
+
+
 
 
 

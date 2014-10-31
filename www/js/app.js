@@ -37,6 +37,24 @@ app.run(function($ionicPlatform) {
         }
       }
     })
+    .state('app.login', {
+      url: "/login",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/login.html",
+          controller: 'LoginCtrl'
+        }
+      }
+    })
+    .state('app.signup', {
+      url: "/signup",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/signup.html",
+          controller: 'SignupCtrl'
+        }
+      }
+    })
     .state('app.cities', {
       url: "/cities",
       views: {

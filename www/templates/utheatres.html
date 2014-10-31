@@ -35,7 +35,7 @@
     background-color: #31B8F6;
     text-align: center;
   }
-  .item{
+  .item-show{
     padding: 0px;
   }
   .item.row{
@@ -54,6 +54,15 @@
     margin-right: 0px;
     cursor: pointer;
   }
+  .moviename{
+    background-color: #31B8F6;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+  }
+  .moviename .icon{
+    margin-right: 10px;    
+  }
 </style>
 <ion-view title="Select Date">
   <ion-nav-buttons side="right">
@@ -61,7 +70,11 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
     <ion-list>      
-      <a class="item" ng-repeat="theatre in theatres">
+      <div class="item moviename">
+        <i class="icon ion-film-marker"></i> 
+        Movie: {{movie.name}}
+      </div>      
+      <a class="item item-show" ng-repeat="theatre in theatres">
         <div class="row">
           <div class="col col-80 name-div">
             <span class="item-text-wrap">{{theatre.theatre_name}}, {{theatre.theatre_location}}</span><br>

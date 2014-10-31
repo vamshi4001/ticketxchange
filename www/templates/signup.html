@@ -26,7 +26,7 @@
     padding: 0 10px;
   }
 </style>
-<ion-view title="Login">
+<ion-view title="Sign Up">
   <ion-nav-buttons side="right">
     <i class="icon ion-ios7-home" ng-click="goHome()"></i>
   </ion-nav-buttons>
@@ -41,20 +41,28 @@
       <div class="item button button-block button-calm button-outline"><i class="icon ion-social-twitter"></i>Login with Twitter</div>
     </div> -->
     <div class="button-bar">
-      <a class="button button-block button-light">Login</a>
-      <a class="button button-block button-outline button-light" href="#/app/signup">Signup</a>
+      <a class="button button-block button-outline button-light" href="#/app/login">Login</a>
+      <a class="button button-block button-light">Signup</a>
     </div>      
     <div class="list">
       <label class="item item-input item-stacked-label">
-        <span class="input-label">Registered email id</span>
-        <input type="text" placeholder="John@domain.com" ng-model="user.uname">
+        <span class="input-label">Your Name</span>
+        <input type="text" placeholder="Eg: John" ng-model="user.name">
       </label>
       <label class="item item-input item-stacked-label">
         <span class="input-label">Password</span>
-        <input type="password" placeholder="P@ssW0rd" ng-model="user.password">
+        <input type="password" placeholder="Eg: T!ck@t" ng-model="user.password">
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Email</span>
+        <input type="email" placeholder="Eg: john@suhr.com" ng-model="user.email">
+      </label> 
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Contact number</span>
+        <input type="text" placeholder="Eg: 9958099580" ng-model="user.phone">
       </label> 
       <label class="item loginbtn">
-        <button class="button button-block button-positive" ng-click="login()">Login</button>
+        <button class="button button-block button-positive" ng-click="signup()">Signup</button>
       </label> 
     </div>
   </ion-content>

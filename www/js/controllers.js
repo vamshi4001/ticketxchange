@@ -3,41 +3,97 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
   // Form data for the login modal
   $scope.loginData = {};
-  $scope.urlPrefix = "http://localhost:8888/ticketsws/index.php/data/";
-
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
+  // $scope.urlPrefix = "http://home.venublog.com/ticketsws/index.php/data/";
+  $scope.urlPrefix = "http://localhost/ticketsws/index.php/data/";
 })
-
+.controller('LoginCtrl', function ($scope, $location, $state, $stateParams, $http, CityService, UserService) {
+  $scope.user = {};
+  if(UserService.getUserObj().id){
+    if(CityService.getCityObj().id){
+      $location.path("/app/movies/"+CityService.getCityObj().id);
+    }
+  }
+  $scope.goHome = function(){
+    if(CityService.getCityObj().id){
+      $location.path("/app/home/"+CityService.getCityObj().id);
+    }
+    else{
+      $location.path("/app/home");
+    }
+  }  
+  $scope.login = function(){        
+    $http.get($scope.urlPrefix+"/userLogin.json?uname="+$scope.user.uname+"&password="+$scope.user.password).
+    success(function(data){
+      if(data.isSuccess){
+        if(data.result.length==1){
+          UserService.setUserObj(data.result[0]);
+          if(CityService.getCityObj().id){
+            $location.path("/app/home/"+CityService.getCityObj().id)
+          }
+          else{
+            $location.path("/app/cities"); 
+          }
+        }
+        else{
+          alert("Login failed! Try again")
+        }                      
+      }
+      else{
+        alert("Login failed! Try again")
+      }      
+    }).
+    error(function(){
+      console.log("Error");
+    })
+  }
+})
+.controller('SignupCtrl', function ($scope, $location, $state, $stateParams, $http, CityService) {
+  $scope.user = {};
+  $scope.goHome = function(){
+    if(CityService.getCityObj().id){
+      $location.path("/app/home/"+CityService.getCityObj().id);
+    }
+    else{
+      $location.path("/app/home");
+    }
+  }  
+  $scope.signup = function(){
+    var data = {
+      name: $scope.user.name,
+      password: $scope.user.password,
+      email: $scope.user.email,
+      phone: $scope.user.phone
+    }      
+    $http({
+        method: "post",
+        url: $scope.urlPrefix+"/newUser.json",
+        data: data
+    }).
+    success(function(edata, status, headers){
+      alert("Signed up successfully");
+      if(CityService.getCityObj().id){
+        $location.path("/app/home/"+CityService.getCityObj().id)
+      }
+      else{
+        $location.path("/app/cities"); 
+      }
+    }).
+    error(function(){
+      console.log("Error");
+    })
+  }
+})
 .controller('CitiesCtrl', function ($scope, $location, $state, $stateParams, $http, CityService) {
     $scope.cities = [];
     $scope.error = ""; 
-
+    $scope.goHome = function(){
+      if(CityService.getCityObj().id){
+        $location.path("/app/home/"+CityService.getCityObj().id);
+      }
+      else{
+        $location.path("/app/home");
+      }
+    }
     $scope.getCities = function(){
       $http.get($scope.urlPrefix+"getCities.json")
       .success(function(data){
@@ -75,7 +131,7 @@ angular.module('starter.controllers', [])
 })
 .controller('UserEndingCtrl', function ($scope, $stateParams, $location, $state, $http, CityService) {
   $scope.goHome = function(){
-      $location.path("/app/home/"+CityService.getCityObj().id);;
+      $location.path("/app/home/"+CityService.getCityObj().id);
     }
     
 })
@@ -84,7 +140,7 @@ angular.module('starter.controllers', [])
     $scope.error = false;
     $scope.cityId = "";
     $scope.goHome = function(){
-      $location.path("/app/home/"+CityService.getCityObj().id);;
+      $location.path("/app/home/"+CityService.getCityObj().id);
     }
     $scope.getMovies = function(){
       $http.get($scope.urlPrefix+"getMovies.json?cityid="+$scope.cityId)
@@ -120,7 +176,7 @@ angular.module('starter.controllers', [])
     $scope.error = false;
     $scope.cityId = "";
     $scope.goHome = function(){
-      $location.path("/app/home/"+CityService.getCityObj().id);;
+      $location.path("/app/home/"+CityService.getCityObj().id);
     }
     $scope.getMovies = function(){
       $http.get($scope.urlPrefix+"getMovies.json?cityid="+$scope.cityId)
@@ -161,6 +217,7 @@ angular.module('starter.controllers', [])
       // console.log(data);
       if(data.result && data.result.length>0){
         $scope.theatres = data.result;
+        $scope.movie = data.movie[0];
       }
       else{
         $scope.error = true;
@@ -171,12 +228,18 @@ angular.module('starter.controllers', [])
     })
 
     $scope.goHome = function(){
-      $location.path("/app/home/"+CityService.getCityObj().id);;
+      $location.path("/app/home/"+CityService.getCityObj().id);
     }
     
 })
-.controller('HomeCtrl', function ($scope, $stateParams, $location, $state, $http, UtilitiesService, CityService) {
-  if($stateParams.cityId){
+.controller('HomeCtrl', function ($scope, $stateParams, $location, $state, $http, UtilitiesService, CityService, UserService) {
+  $scope.loggedinUser = "Guest";
+  $scope.isLogedin = false;
+  if(UserService.getUserObj().id){
+    $scope.isLogedin = true;
+    $scope.loggedinUser = UserService.getUserObj().fullname;
+  }
+  if($stateParams.cityId && $stateParams.cityId!="undefined"){
     $scope.cityid = $stateParams.cityId;
     $scope.selectedCity = "";
     console.log(CityService.getCityObj());
@@ -190,7 +253,7 @@ angular.module('starter.controllers', [])
 .controller('PostedTicketsCtrl', function ($scope, $stateParams, $location, $state, $http, UtilitiesService, CityService) {
   $scope.tmid = $stateParams.tmid;
   $scope.goHome = function(){
-      $location.path("/app/home/"+CityService.getCityObj().id);;
+      $location.path("/app/home/"+CityService.getCityObj().id);
     }
     $http.get($scope.urlPrefix+"getPostedTickets.json?tmid="+$scope.tmid)
     .success(function(data){
@@ -206,9 +269,13 @@ angular.module('starter.controllers', [])
       console.log("Error");
     })
 })
+.controller('MyticketsCtrl', function ($scope, $location, $state, $stateParams, $http, UtilitiesService, CityService) {
+  console.log("I came here");
+})
 .controller('UserTheatresCtrl', function ($scope, $location, $state, $stateParams, $http, UtilitiesService, CityService) {
     $scope.theatres = [];
     $scope.error = false;
+    $scope.movie = {}
     $scope.cityId = $stateParams.cityId;
     $scope.movieId = $stateParams.movieId;
     $scope.formatTime = UtilitiesService.formatTime;
@@ -216,11 +283,12 @@ angular.module('starter.controllers', [])
       $location.path("/app/postedtickets/"+tmid);
     }
     $scope.goHome = function(){
-      $location.path("/app/home/"+CityService.getCityObj().id);;
+      $location.path("/app/home/"+CityService.getCityObj().id);
     }
     $http.get($scope.urlPrefix+"getTickets.json?cityid="+$scope.cityId+"&movieid="+$scope.movieId+"&date="+$stateParams.date)
     .success(function(data){
       var groups = [];
+      $scope.movie = data.movie[0];
       for (var i = 0; i < data.result.length; i++) {
         var theatreid = data.result[i]['theatreid'];
         if(groups[theatreid]){
@@ -269,17 +337,19 @@ angular.module('starter.controllers', [])
 .controller('DatesCtrl', function ($scope, $stateParams, $http, $location, $state, UtilitiesService, CityService) {
     $scope.theatres = [];
     $scope.error = false;
+    $scope.movie = {};
     $scope.cityId = $stateParams.cityId;
     $scope.movieId = $stateParams.movieId;
     $scope.formatDate = UtilitiesService.formatDate;
     $scope.goHome = function(){
-      $location.path("/app/home/"+CityService.getCityObj().id);;
+      $location.path("/app/home/"+CityService.getCityObj().id);
     }
     $http.get($scope.urlPrefix+"getDates.json?movieid="+$stateParams.movieId+"&cityid="+$stateParams.cityId)
     .success(function(data){
       // console.log(data);
       if(data.result && data.result.length>0){
         $scope.dates = data.result;
+        $scope.movie = data.movie[0];
       }
       else{
         $scope.error = true;
@@ -299,13 +369,15 @@ angular.module('starter.controllers', [])
     $scope.formatDate = UtilitiesService.formatDate;
     // console.log(UtilitiesService.formatTime("1100"));
     $scope.goHome = function(){
-      $location.path("/app/home/"+CityService.getCityObj().id);;
+      $location.path("/app/home/"+CityService.getCityObj().id);
     }
     $scope.addTickets = function(tmid, showtime){      
       $location.path("/app/postticket/"+$scope.cityId+"/"+tmid);
     }
     $http.get($scope.urlPrefix+"getShows.json?movieid="+$stateParams.movieId+"&theatreid="+$stateParams.theatreId)
     .success(function(data){
+      $scope.movie = data.movie[0];
+      $scope.theatre = data.theatre[0];
       var groups = [];
       for (var i = 0; i < data.result.length; i++) {
         var date = data.result[i]['date'];
@@ -349,7 +421,7 @@ angular.module('starter.controllers', [])
       console.log("Error");
     })
 })
-.controller('PostTicketCtrl', function ($scope, $stateParams, $http, $location, $state, UtilitiesService, CityService) {
+.controller('PostTicketCtrl', function ($scope, $stateParams, $http, $location, $state, UtilitiesService, CityService, UserService) {
   $scope.error = false;
   // console.log($stateParams);
   $scope.post = {};
@@ -364,13 +436,7 @@ angular.module('starter.controllers', [])
   $scope.post.needOnlinePayment = false;
   $scope.formatDate = UtilitiesService.formatDate;
   //get User details
-  var userObj = {
-                  id: "2",
-                  emailid: "avinash.palleti@gmail.com",
-                  fullname: "Avinash Reddy",
-                  contactnumber: "9242610583",
-                  cityid: null
-                };
+  var userObj = UserService.getUserObj();
   $scope.post.name = userObj.fullname;
   $scope.post.phone = userObj.contactnumber;
   //get movieid theatreid showid and date
@@ -407,7 +473,7 @@ angular.module('starter.controllers', [])
       $scope.showTime = UtilitiesService.formatTime(showTime);    
   })
   $scope.goHome = function(){
-      $location.path("/app/home/"+CityService.getCityObj().id);;
+      $location.path("/app/home/"+CityService.getCityObj().id);
     }
     
   $scope.postTickets = function(){
@@ -430,7 +496,7 @@ angular.module('starter.controllers', [])
             }).
             success(function(edata, status, headers){
               alert("Ticket posted successfully");
-              $location.path("app/home/"+$scope.cityId);
+              $scope.goHome();
             }).
             error(function(){
               console.log("Error");
