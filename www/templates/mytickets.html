@@ -1,16 +1,45 @@
-<ion-view title="Cities">
+<style>
+  .item-text-wrap{
+    font-size: 15px;
+    color: gray;
+  }  
+  .pane {
+      background-color: #4285F4;
+  }
+  .icon{
+    font-size: 30px;
+  }
+  .bar .title + .button:last-child, .bar > .button + .button:last-child, .bar > .button.pull-right, .bar .buttons.pull-right, .bar .title + .buttons{
+    right: 10px;
+  }
+  .button.button-assertive, .button.button-royal{
+    position: absolute;
+    top: 105px;
+    left: 10px;
+    max-width: 80px;
+    max-height: 80px;
+    width: 100%;
+  }  
+</style>
+<ion-view title="Movies" ng-show="!error">
+  <ion-nav-buttons side="right">
+    <i class="icon ion-ios7-home" ng-click="goHome()"></i>
+  </ion-nav-buttons>
   <ion-content class="has-header">
-    <div class="buttonbar">
-      <button class="button buttob-positive"><i class="icon ion-person"></i></button>
-      <button class="button buttob-positive"><i class="icon ion-person"></i></button>
-    </div>
-    <div class="buttonbar">
-      <button class="button buttob-positive"><i class="icon ion-person"></i></button>
-      <button class="button buttob-positive"><i class="icon ion-person"></i></button>
-    </div>
-    <div class="buttonbar">
-      <button class="button buttob-positive"><i class="icon ion-person"></i></button>
-      <button class="button buttob-positive"><i class="icon ion-person"></i></button>
-    </div>
-  </ion-content>
+    <div class="list-group">
+      <div class="list">
+          <div ng-repeat="item in list" class="item item-thumbnail-left">
+            <img src="{{item.imageurl}}">
+            <button class="button button-assertive button-small button-outline">Remove</button>
+            <!-- <button class="button button-royal button-small button-outline" ng-show="item.expired=='0'">Expired</button> -->
+            <h2>{{item.movie}}</h2>
+            <span class="item-text-wrap">Sold {{item.quantity}} tickets Rs.{{item.price}} each as {{item.user}} at </span>
+            <span class="item-text-wrap">{{item.theatre}}, {{item.location}}</span>
+            <span class="item-text-wrap">on {{formatDate(item.date)}} for {{formatTime(item.showtimes)}} show</span>
+          </div>
+      </div> 
+    </div> 
+  </ion-content>  
 </ion-view>
+<ion-view class="pane" ng-show="error">
+</ion-view> 

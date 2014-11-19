@@ -35,24 +35,9 @@
   <ion-content class="login" has-header="false">
       <div class="list">
         <div class="logo">
-          <i class="icon ion-person"></i>
-          <p class="city-center">Welcome {{loggedinUser}}</p>
+          <i class="icon ion-loading-c"></i>
+          <p class="city-center">Logging out</p>
         </div>
-      </div>
-      
-      <div class="list">
-        <div class="list-item">
-          <a href="#/app/umovies/{{cityid}}" class="button button-light button-block">Buy Tickets</a>      
-        </div>
-        <div class="list-item">
-          <a href="#/app/skiplogin/{{cityid}}" class="button button-light button-block">Sell Tickets</a>
-        </div>
-        <a href="#/app/cities/change" class="city-center"><i class="icon ion-earth"></i><span ng-show="selectedCity.length>0">{{selectedCity}} - </span>Change City</a>  
-        
-      </div>      
-      <div class="list"  ng-show="isLogedin">
-        <a href="#/app/mytickets" class="city-center"><i class="icon ion-ios7-pricetags"></i>My Tickets</a>          
-        <a href="#/app/logout" class="city-center"><i class="icon ion-log-out"></i>Log out</a>          
       </div>
   </ion-content> 
   <!-- <ion-footer-bar align-title="left" class="bar-positive" ng-show="isLogedin">

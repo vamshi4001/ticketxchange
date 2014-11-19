@@ -2,13 +2,14 @@
 <widget id="com.ionicframework.ticketsapp102171" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>ticketsapp</name>
   <description>
-        An Ionic Framework and Cordova project.
+        Buy and sell spare tickets
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
-      Ionic Framework Team
-    </author>
+  <author email="vamshi4001@gmail.com" href="http://mycollect.in/">
+      VAK Developers
+  </author>
   <content src="index.html"/>
   <access origin="*"/>
+  <preference name="fullscreen" value="false" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>

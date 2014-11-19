@@ -46,6 +46,33 @@ app.run(function($ionicPlatform) {
         }
       }
     })
+    .state('app.logout', {
+      url: "/logout",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/logout.html",
+          controller: 'LogoutCtrl'
+        }
+      }
+    })
+    .state('app.skiplogin', {
+      url: "/skiplogin/:cityId",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/skiplogin.html",
+          controller: 'SkipLoginCtrl'
+        }
+      }
+    })
+    .state('app.mytickets', {
+      url: "/mytickets",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/mytickets.html",
+          controller: 'MyticketsCtrl'
+        }
+      }
+    })
     .state('app.signup', {
       url: "/signup",
       views: {
@@ -196,7 +223,7 @@ app.service("UserService", function(){
       return userObj;
     },
     removeUserObj : function(){
-      userObj = null;
+      userObj = {};
     }
   }
 });
@@ -211,7 +238,7 @@ app.service("CityService", function(){
       return cityObj;
     },
     removeCityObj : function(){
-      cityObj = null;
+      cityObj = {};
     }
   }
 })

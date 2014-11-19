@@ -1,0 +1,55 @@
+<style>
+  .item-text-wrap{
+    font-size: 15px;
+    color: gray;
+  }
+    .pane {
+        background-color: #4285F4;
+    }
+    .bar-header{
+      display: none;
+    }
+    .login{
+      width: 90%;
+      margin: 0 auto;
+    }
+    .city-center{
+      display: block;
+      text-align: center;
+      font-weight: bold;
+      color: #fff;      
+    }
+  .logo i{
+    font-size: 100px;
+    color: #FFF;
+    text-align: center;
+    display: block;
+    margin-top: 15px;
+  }  
+  .city-center i{
+    vertical-align: middle;
+    margin-right: 10px;
+  }
+  .list p{
+    color: white; 
+    font-weight: bold;    
+  }
+</style>
+<ion-view title="Movies" ng-show="!error">
+  <ion-content class="login" has-header="false">
+      <div class="list">
+        <div class="list-item">
+          <a href="#/app/movies/{{cityid}}" class="button button-light button-block">Proceed as guest</a>      
+        </div>
+        <div class="list-item">
+          <a href="#/app/login" class="button button-light button-block">I want to signin/register</a>
+        </div> 
+        <div class="list-item">
+          <p>By signing up, you can remove tickets from this application as soon as they are sold out and avoid further calls.</p>
+          <p>We would suggest you to sign up for even smoother experience.</p>
+        </div>         
+      </div>      
+  </ion-content>   
+</ion-view>
+<ion-view class="pane" ng-show="error">
+</ion-view> 
