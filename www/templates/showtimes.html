@@ -19,6 +19,14 @@
   .item-text-wrap{
     color: white;
   }
+  .shows-list {
+    display: block;
+    overflow: auto;
+  }
+  .show{
+    float: left;
+    padding: 10px 0;
+  }
   .show-times{
     color: bisque;
   }
@@ -55,7 +63,7 @@
   }
   .col-25{
     text-align: center;
-    border-right:1px solid white;
+    border-bottom:1px dashed white;
     margin-right: 0px;
     cursor: pointer;
   }
@@ -91,8 +99,8 @@
           </div>                        
         </div>
         <div class="show-expand">
-          <div class="list row">
-            <div class="list-item col col-25" ng-repeat="show in show.shows" ng-click="addTickets(show.tmid,show.showtime)">
+          <div class="list row shows-list">
+            <div class="list-item col col-25 show" ng-repeat="show in show.shows" ng-click="addTickets(show.tmid,show.showtime)">
               <h2 class="showtime">{{show.showtime}}</h2>
               <!-- <span class="small">{{show.tickets}} tickets</span> -->
             </div>            
