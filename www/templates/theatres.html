@@ -8,18 +8,22 @@
   .moviename .icon{
     margin-right: 10px;    
   }
+  input.form-control{
+    padding: 20px;
+  }
 </style>
 <ion-view title="Theatres">
   <ion-nav-buttons side="right">
     <i class="icon ion-ios7-home" ng-click="goHome()"></i>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <ion-list>
+      <input type="text" ng-model="filterTheatre" class="form-control" placeholder="Start typing a theatre name to search...">
+      <ion-list>
       <div class="item moviename">
         <i class="icon ion-film-marker"></i> 
         Movie: {{movie.name}}
       </div>      
-      <a class="item" ng-repeat="theatre in theatres" href="#/app/showtimes/{{cityId}}/{{movieId}}/{{theatre.id}}">
+      <a class="item" ng-repeat="theatre in theatres | filter:filterTheatre" href="#/app/showtimes/{{cityId}}/{{movieId}}/{{theatre.id}}">
         <!-- <i class="icon ion-ios7-videocam-outline"></i> -->
         <h2>{{theatre.name}}</h2>
         <p>{{theatre.location}}</p>

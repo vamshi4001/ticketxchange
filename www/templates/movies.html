@@ -15,6 +15,9 @@
   .button.back-button{
     display: none;
   }
+  input.form-control{
+    padding: 20px;
+  }
 </style>
 <ion-view title="Movies" ng-show="!error">
   <ion-nav-buttons side="right">
@@ -22,8 +25,9 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
     <div class="list-group">
+      <input type="text" ng-model="filterMovie.name" class="form-control" placeholder="Start typing a movie name to search...">
       <div class="list">
-          <a ng-repeat="movie in movies" class="item item-thumbnail-left" href="#/app/theatres/{{cityId}}/{{movie.id}}">
+          <a ng-repeat="movie in movies | filter:filterMovie" class="item item-thumbnail-left" href="#/app/theatres/{{cityId}}/{{movie.id}}">
             <img src="{{movie.imageurl}}">
             <h2>{{movie.name}}</h2>
             <span class="item-text-wrap">There are 45 tickets available for this movie in your city. Go grab them</span>
