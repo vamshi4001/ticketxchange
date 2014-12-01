@@ -3,8 +3,8 @@ angular.module('starter.controllers', [])
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
   // Form data for the login modal
   $scope.loginData = {};
-  $scope.urlPrefix = "http://home.venublog.com/ticketsws/index.php/data/";
-  // $scope.urlPrefix = "http://localhost:8888/ticketsws/index.php/data/";
+  // $scope.urlPrefix = "http://home.venublog.com/ticketsws/index.php/data/";
+  $scope.urlPrefix = "http://localhost:8888/ticketsws/index.php/data/";
   
   
 })
@@ -176,7 +176,7 @@ angular.module('starter.controllers', [])
       $location.path("/app/home/"+CityService.getCityObj().id);
     }
     $scope.getMovies = function(){
-      $http.get($scope.urlPrefix+"getMovies.json?cityid="+$scope.cityId)
+      $http.get($scope.urlPrefix+"getMoviesTickets.json?cityid="+$scope.cityId)
       .success(function(data){
         // console.log(data);
         if(data.result && data.result.length>0){
@@ -267,20 +267,37 @@ angular.module('starter.controllers', [])
     $scope.error = false;
     $scope.cityId = $stateParams.cityId;
     $scope.movieId = $stateParams.movieId;
-    $http.get($scope.urlPrefix+"getTheatres.json?movieid="+$stateParams.movieId+"&cityid="+$stateParams.cityId)
-    .success(function(data){
-      // console.log(data);
-      if(data.result && data.result.length>0){
-        $scope.theatres = data.result;
-        $scope.movie = data.movie[0];
-      }
-      else{
-        $scope.error = true;
-      }
-    })
-    .error(function(){
-      console.log("Error");
-    })
+    $scope.show = function(message){
+	      $scope.loading = $ionicLoading.show({
+	          content: '<i class=" ion-loading-c"></i> '+ message,
+	          animation: 'fade-in',
+	          showBackdrop: true,
+	          maxWidth: 200,
+	          showDelay: 500
+	      });
+	  }
+    $scope.getTheatres = function(){
+    	$http.get($scope.urlPrefix+"getTheatres.json?movieid="+$stateParams.movieId+"&cityid="+$stateParams.cityId)
+	    .success(function(data){
+	      // console.log(data);
+	      if(data.result && data.result.length>0){
+	      	$ionicLoading.hide();
+	        $scope.theatres = data.result;
+	        $scope.movie = data.movie[0];
+	      }
+	      else{
+	      	$ionicLoading.hide();
+	        $scope.error = true;
+	      }
+	    })
+	    .error(function(){
+	     $ionicLoading.hide();
+	      console.log("Error");
+	    })
+    }
+    $scope.show();
+    $scope.getTheatres();
+    
 
     $scope.goHome = function(){
       $location.path("/app/home/"+CityService.getCityObj().id);

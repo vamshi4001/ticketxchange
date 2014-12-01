@@ -1,7 +1,7 @@
 {
-  "name": "ticketsapp",
+  "name": "yobun",
   "version": "1.0.0",
-  "description": "ticketsapp: An Ionic project",
+  "description": "Yobun: Buy and Sell extra tickets",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^0.7.1",

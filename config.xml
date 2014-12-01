@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.ticketsapp102171" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>ticketsapp</name>
+<widget id="com.mycollect.yobun" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <name>Yobun</name>
   <description>
-        Buy and sell spare tickets
+        Buy and sell extra tickets
     </description>
   <author email="vamshi4001@gmail.com" href="http://mycollect.in/">
-      VAK Developers
+      VAPK Developers
   </author>
   <content src="index.html"/>
   <access origin="*"/>
