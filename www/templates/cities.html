@@ -1,8 +1,21 @@
+<style>
+	.icon{
+		float: left;
+		margin-right: 20px;
+	}
+	.item{
+		padding: 8px;
+	}
+	h2{
+		line-height: 50px;
+	}
+</style>
 <ion-view title="Cities">
   <ion-content class="has-header">
     <ion-list>
-      <ion-item ng-repeat="city in cities" ng-click="selectCity(city.id)">
-        {{city.city}}
+      <ion-item ng-repeat="city in cities" ng-click="selectCity(city.id)">                
+	    <img class="icon" src="img/city.png">
+	    <h2>{{city.city}}</h2>	      	    
       </ion-item>
     </ion-list>
   </ion-content>

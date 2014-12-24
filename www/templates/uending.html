@@ -4,7 +4,7 @@
     color: gray;
   }
   .pane {
-        background-color: #4285F4;
+        /*background-color: #4285F4;*/
     }
     /*.button.button-calm{
       border-color: crimson;
@@ -14,6 +14,18 @@
       border: 0px;
       border-radius: 0px;
     }
+    .coming-soon, .ion-jet{
+      text-align: center;
+      font-size: 25px;
+      line-height: 30px;
+      color: #666;
+      margin-top: 100px;
+    }   
+  .button.button-our{
+    background-color: #eb6a5a;
+    color: white;
+    border-color: #eb6a5a;
+  } 
 </style>
 <ion-view title="Movies" ng-show="!error">
   <ion-nav-buttons side="right">
@@ -21,11 +33,12 @@
   </ion-nav-buttons>
   <ion-content class="has-header">
     <div class="button-bar button-block">
-      <a href="#/app/uending/{{cityId}}" class="button button-calm">Concerts</a>
-      <a href="#/app/umovies/{{cityId}}" class="button button-default">Movies</a>
+      <a href="#/app/uending/{{cityId}}" class="button button-light">Concerts</a>
+      <a href="#/app/umovies/{{cityId}}" class="button button-our">Movies</a>
     </div>
-    <div class="list">
-        
+    <div class="list coming-soon">
+        <i class="icon ion-jet"></i>  <br>
+        Coming Soon
     </div>  
   </ion-content>  
 </ion-view>

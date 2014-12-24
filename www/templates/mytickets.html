@@ -4,7 +4,7 @@
     color: gray;
   }  
   .pane {
-      background-color: #4285F4;
+      background-color: #34495e;
   }
   .icon{
     font-size: 30px;
@@ -19,18 +19,26 @@
     max-width: 80px;
     max-height: 80px;
     width: 100%;
-  }  
+  } 
+  .coming-soon, .ion-coffee{
+      text-align: center;
+      font-size: 25px;
+      line-height: 30px;
+      color: #FFF;
+      margin-top: 100px;
+    } 
+   
 </style>
-<ion-view title="Movies" ng-show="!error">
+<ion-view title="My Tickets">
   <ion-nav-buttons side="right">
     <i class="icon ion-ios7-home" ng-click="goHome()"></i>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <div class="list-group">
+    <div class="list-group" ng-show="!error">
       <div class="list">
           <div ng-repeat="item in list" class="item item-thumbnail-left">
             <img src="{{item.imageurl}}">
-            <button class="button button-assertive button-small button-outline">Remove</button>
+            <button class="button button-assertive button-small button-outline" ng-click="removeTicket(item.id)">Remove</button>
             <!-- <button class="button button-royal button-small button-outline" ng-show="item.expired=='0'">Expired</button> -->
             <h2>{{item.movie}}</h2>
             <span class="item-text-wrap">Sold {{item.quantity}} tickets Rs.{{item.price}} each as {{item.user}} at </span>
@@ -39,7 +47,9 @@
           </div>
       </div> 
     </div> 
+    <div class="list coming-soon" ng-show="error">
+      <i class="icon ion-coffee"></i>  <br>
+        No tickets posted yet! 
+    </div>
   </ion-content>  
 </ion-view>
-<ion-view class="pane" ng-show="error">
-</ion-view> 

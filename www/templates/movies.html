@@ -1,10 +1,10 @@
 <style>
   .item-text-wrap{
-    font-size: 15px;
-    color: gray;
+    font-size: 12px;    
   }  
   .pane {
-      background-color: #4285F4;
+      /*background-color: #4285F4;*/
+        background-color: #34495e;
   }
   .icon{
     font-size: 30px;
@@ -15,26 +15,83 @@
   .button.back-button{
     display: none;
   }
-  input.form-control{
-    padding: 20px;
+  .item, .item h1, .item h2, .item h3, .item h4, .item h5, .item h6, .item p, .item-content, .item-content h1, .item-content h2, .item-content h3, .item-content h4, .item-content h5, .item-content h6, .item-content p{
+    text-overflow: initial;
+    white-space: normal;
   }
+  .item-input-wrapper{
+    background-color: #fff;
+    border-radius: 0px;
+  }
+  a.item {
+    /* color: white; */
+    text-decoration: none;
+    background: url(img/footer_stripe.png) repeat-x;
+    border-top: 5px groove #eb6a5a;
+  }
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+    color: white
+  }
+  .item {
+    /* border-color: #ddd; */
+    /* background-color: #fff; */
+    /* color: #444; */
+    position: relative;
+    z-index: 2;
+    display: block;
+    margin: -1px;
+    /*padding: 16px;*/
+     border-width: 0px; 
+    border-style: solid;
+    font-size: 16px;
+    min-height: 120px;
+  }
+  .list{
+    padding-top: 0px;    
+  }
+  span.genre {
+    background: #eb6a5a;
+    color: #fff;
+    margin-left: 5px;
+    border-radius: 5px;
+    padding: 0 15px;
+    display: block;
+    float: left;
+    margin-top: 2px;
+  }
+  .coming-soon, .ion-coffee{
+      text-align: center;
+      font-size: 20px;
+      line-height: 30px;
+      color: #FFF;
+      margin-top: 100px;
+    } 
+  
 </style>
-<ion-view title="Movies" ng-show="!error">
+<ion-view title="Movies">
   <ion-nav-buttons side="right">
     <i class="icon ion-ios7-home" ng-click="goHome()"></i>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <div class="list-group">
-      <input type="text" ng-model="filterMovie.name" class="form-control" placeholder="Start typing a movie name to search...">
+    <div class="list-group" ng-show="!error">
+      <label class="item-input-wrapper">
+          <i class="icon ion-ios7-search placeholder-icon"></i>
+          <input type="search" ng-model="filterMovie" class="form-control" placeholder="Start typing a movie name/genre to search...">
+      </label>   
+
       <div class="list">
           <a ng-repeat="movie in movies | filter:filterMovie" class="item item-thumbnail-left" href="#/app/theatres/{{cityId}}/{{movie.id}}">
             <img src="{{movie.imageurl}}">
             <h2>{{movie.name}}</h2>
-            <span class="item-text-wrap">There are 45 tickets available for this movie in your city. Go grab them</span>
+            <span class="item-text-wrap">
+              <span class="genre" ng-repeat="genre in movie.genreArr">{{genre}}</span>              
+            </span>
           </a>
       </div> 
     </div> 
+    <div class="list coming-soon" ng-show="error">
+        <i class="icon ion-coffee"></i>  <br>
+        No movies data available for this city.
+    </div>      
   </ion-content>  
 </ion-view>
-<ion-view class="pane" ng-show="error">
-</ion-view> 

@@ -1,23 +1,37 @@
 <style>
   .moviename{
-    background-color: #4285F4;
+    background-color: #eb6a5a;
     color: #fff;
     font-weight: bold;
     padding: 10px;
   }
+  .pane{    
+    background-color: #34495e;
+  }
   .moviename .icon{
     margin-right: 10px;    
+  }  
+  .item-input-wrapper{
+    background-color: #fff;
+    border-radius: 0px;
   }
-  input.form-control{
-    padding: 20px;
-  }
+  .coming-soon, .ion-coffee{
+      text-align: center;
+      font-size: 20px;
+      line-height: 30px;
+      color: #FFF;
+      margin-top: 100px;
+    } 
 </style>
 <ion-view title="Theatres">
   <ion-nav-buttons side="right">
     <i class="icon ion-ios7-home" ng-click="goHome()"></i>
   </ion-nav-buttons>
-  <ion-content class="has-header">
-      <input type="text" ng-model="filterTheatre" class="form-control" placeholder="Start typing a theatre name to search...">
+  <ion-content class="has-header" ng-show="!error">
+      <label class="item-input-wrapper">
+          <i class="icon ion-ios7-search placeholder-icon"></i>
+          <input type="search" ng-model="filterTheatre" class="form-control" placeholder="Start typing a movie name to search...">
+      </label>        
       <ion-list>
       <div class="item moviename">
         <i class="icon ion-film-marker"></i> 
@@ -30,4 +44,10 @@
       </a>
     </ion-list>
   </ion-content>
+  <ion-content class="has-header" ng-show="error">
+    <div class="list coming-soon" ng-show="error">
+        <i class="icon ion-coffee"></i>  <br>
+        No movies data available for this city.
+    </div>
+  </ion-content> 
 </ion-view>

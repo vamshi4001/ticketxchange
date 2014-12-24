@@ -19,6 +19,28 @@ app.run(function($ionicPlatform) {
     }
   });
 })
+.factory('DataStore', function() {
+    //create datastore with default values
+    var DataStore = {
+        city:       'Miami',
+        latitude:   25.7877,
+        longitude:  80.2241 
+      };
+
+    DataStore.setCity = function (value) {
+       DataStore.city = value;
+    };
+
+    DataStore.setLatitude = function (value) {
+       DataStore.longitude = value;
+    };
+
+    DataStore.setLongitude = function (value) {
+       DataStore.longitude = value;
+    };
+
+    return DataStore;
+})
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
@@ -207,8 +229,17 @@ app.service('UtilitiesService', function(){
       var mon = dt.getMonth();
       var date = dt.getDate();
       var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-      var dayNames = ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Firday","Saturday"];      
+      var dayNames = ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];      
       return dayNames[day]+" "+date+" "+monthNames[mon];
+    },
+    formatSmallDate: function(inpdate){
+      var dt = new Date(inpdate);
+      var day = dt.getDay();
+      var mon = dt.getMonth();
+      var date = dt.getDate();
+      var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+      // var dayNames = ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];      
+      return date+" "+monthNames[mon];
     }
   }
 });
